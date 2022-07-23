@@ -56,7 +56,7 @@ Updates are common, non encrypted Android OTA files which can easily be unpacked
 
 ## Update mechanism
 
-#### Update checks
+### Update checks
 
 The device updates by coordinating with a server at `device.supernote.com.cn` to see whether there is a new update available:
 
@@ -68,7 +68,7 @@ If an update is available the device receives a download URL along with a full c
 
 > {"success":true,"errorCode":null,"errorMsg":null,"configureList":[{"type":"1","version":"Chauvet.xxxx.xxxxxxxxxx.xxx_xxxxxxx","fileName":"Chauvet.xxxx.xxxxxxxxxx.xxx_xxxxxxx.zip","name":null,"packageName":null,"versionNo":null,"url":"https://prod-ratta-firmware.s3.ap-northeast-1.amazonaws.com/xxxxxx/update.zip","size":xxxxxxxx,"md5":"abcdefabcdefabcdefabcdef"}],"totalSize":xxxxxxxx,"fixPointList":[{"current":false,"version":"Chauvet x.x.xx(xxx)","fixPoint":"<p>...</p>","opTime":"xxxx-xx-xx xx:xx:xx"}],"logicVersion":" Chauvet x.x.xx(xxx)","deployDate":"xxxx-xx-xx xx:xx:xx"}
 
-#### Update installation
+### Update installation
 
 Which is then being downloaded and handed over to the recovery system.
 
@@ -217,7 +217,7 @@ By looking at update.zip: `/META-INF/com/android/otacert` we can look at the pub
 > pJXgkkLmpq0uDXsSMJZ2<br>
 > -----END CERTIFICATE-----
 
-#### Finding the private key to sign OTAs
+### Finding the private key to sign OTAs
 
 [Googling part of the cert](https://www.google.com/search?q=%22pJXgkkLmpq0uDXsSMJZ2%22) yields at least one result from xda-developers.com where someone is trying to get into their Android 8.1 Rockchip PX5 device.
 
@@ -252,7 +252,7 @@ Fun fact: README in that folder states:
 Yup, confirmed.
 
 
-#### Build and sign your own update.zip
+### Build and sign your own update.zip
 
 I leave the technique up to you - while working on Windows I use [Multi Image Kitchen](https://forum.xda-developers.com/t/kitchen-windows-multi-image-kitchen-repack-android-partitions.4326387/) to unpack and repack and sign Android OTAs. You will have to move your 
 `testkey.x509.pem` and `testkey.pk8` into the `\bin` folder of the tool and from there on will be able to create modified updates the device will have no choice but installing when you place it in the EXPORT folder.
@@ -289,11 +289,11 @@ Backup all partitions for example by issuing these commands in a root adb shell:
 	cat /dev/block/mmcblk1p14 > /sdcard/EXPORT/oem.img
 	cat /dev/block/mmcblk1p15 > /sdcard/EXPORT/frp.img
 
-#### Supernote A5X partition layout:
+### Supernote A5X partition layout:
 
 ![partition layout](assets/partition-table.png)
 
-#### blocks by-name:
+### blocks by-name:
 
     backup -> /dev/block/mmcblk1p8
     boot -> /dev/block/mmcblk1p6
@@ -312,7 +312,7 @@ Backup all partitions for example by issuing these commands in a root adb shell:
     userdata -> /dev/block/mmcblk1p16
     vendor -> /dev/block/mmcblk1p13
 
-#### relevant mounts:
+### relevant mounts:
 
     rootfs / rootfs ro,seclabel,size=981980k,nr_inodes=245495 0 0
     /dev/block/by-name/system /system ext4 ro,seclabel,relatime,data=ordered,inode_readahead_blks=8 0 0
@@ -333,7 +333,7 @@ Backup all partitions for example by issuing these commands in a root adb shell:
 
 The update that was on my device already came with a su binary and lots of shortcuts that gave me easy access to a root adb interface.
 
-#### Enabling root adb interface
+### Enabling root adb interface
 
 Some modifications I experimented with were:
 
@@ -348,7 +348,7 @@ Some modifications I experimented with were:
 	ro.adb.secure=0
 	persist.sys.usb.config=mtp,adb
 
-#### Disable auto update and telemetry
+### Disable auto update and telemetry
 
 And while there I blocked the very frequent update checks and optional telemetry (also blocks the built-in App Store but that's pretty much useless as we can now sideload apps to the device)
 
@@ -366,7 +366,7 @@ And while there I blocked the very frequent update checks and optional telemetry
 
 You have a working root adb interface from here, can sideload apps and fully modify the /system to your liking after issuing a `mount -o remount,rw /system` 
 
-#### SuperSU to make a broken root a bit less broken
+### SuperSU to make a broken root a bit less broken
 
 First step I then made then was installing a properly working SuperSU system-based root solution. For that I downloaded the latest supersu.zip, unpacked it, looked at the install script and put files in place manually in a super hacky way:
 
@@ -416,7 +416,7 @@ It would have been simple to implement a quick script but at this point I was ju
 
 Magisk can produce pre modified "rooted" boot.img kernel and ramdisk by feeding it the unmodified boot.img.
 
-#### Preparation
+### Preparation
 
 Take the `boot.img` from the root of your `update.zip` and copy it to `/storage/emulated/0/Download`
 
@@ -432,13 +432,13 @@ Before being able to choose a file to patch in Magisk I needed to install a Docu
 
 Do the same as above to make it appear in the sidebar. Open it and blindly tap on the top right to open an "empty" menu where you try to tap the second last item to switch from the dark theme to the light one in order to finally see everything properly.
 
-#### Patching boot.img
+### Patching boot.img
 
 Open Magisk, (grant it root access), tap Update, leave everything as is, tap next, "Select and Patch a file", choose Total Commander (url...) as provider and then select your boot.img.
 
 Again copy the resulting `magisk_patched-xxx.img` from it's default work folder `/storage/emulated/0/Download` back to your computer.
 
-#### Installing magisk through fastboot
+### Installing magisk through fastboot
 
 From boot your device into fastboot:
 
@@ -472,7 +472,7 @@ In case anything happens to your device, open it, remove the shielding from the 
 
 This will put your device in maskrom mode. I will not go into all detail on how to recover the device exactly but will leave you the most relevant info as well as the advice to make backups of all your partitions before doing ANY modifications to your device.
 
-#### Prerequisites
+### Prerequisites
 
 Next install [maskrom drivers](https://rootmydevice.com/download-rockchip-driver-assistant/) (Make sure to [enable unsigned drivers](https://support.viewsonic.com/en/support/solutions/articles/33000252416-how-to-install-unsigned-drivers-in-windows-10) in windows then use tools like `RKImageMaker` and `AFPTool` to create an update.img that can be flashed through [RKDevTool](https://drive.google.com/file/d/1HV1tZVxYf7rCg1mK5iLDYdqt0UGnWNpX/view) (from [here](https://en.t-firefly.com/doc/download/140.html)) in maskrom. RKDevTool contains the aforementioned two binaries you need to create the update package.
 
@@ -489,13 +489,13 @@ and
 
 All in all figuring out the process was a fun experience since the Rockchip SDK and tooling landscape is extremely fragmented.
 
-#### update.img
+### update.img
 
 These files will be needed for a complete update.img. You can source them from places like the partition backups you made and in parts from the abovementioned SDK or googling.
 
 ![update.img contents](assets/update-img.png)
 
-#### .img.krnl vs. .img
+### .img.krnl vs. .img
 
 The krnl files are there since I created a toolchain that uses a tool called [imgRePackerRK](https://forum.xda-developers.com/t/tool-imgrepackerrk-rockchips-firmware-images-unpacker-packer.2257331/) ([download](https://1drv.ms/u/s!ApT2PdXy7niKgwDS0fmgFnkJGGvB)) to convert raw .img files into the Rockchip compatible format (.img.krnl).
 
@@ -510,7 +510,7 @@ But it converts kernel, boot and recovery images that are compatible with Rockch
 
 So I use it to create the .krnl files conveniently and then run my toolchain.bat to build a working update.img while keeping the original .img files along with the .krnl files.
 
-#### Example toolchain
+### Example toolchain
 
     move Image\boot.img Image\boot.img.tmp
     move Image\recovery.img Image\recovery.img.tmp
@@ -531,7 +531,7 @@ So I use it to create the .krnl files conveniently and then run my toolchain.bat
     pause 
 
 
-#### Further resources
+### Further resources
 
 To help you along the way here's also a compatible `/Image/parameter.txt`:
 
@@ -577,7 +577,7 @@ As well as the `/package-file`
 
 Not bother to check whether following scripts are needed but I included them for good measure.
 
-#### Misc.img
+### Misc.img
 
 Make sure to check your misc.img as it directs recovery what to do when updating. In my case I used a blank one that does nothing. Others for example will wipe userdata making you will lose your data.
 
@@ -589,7 +589,7 @@ Make sure to check your misc.img as it directs recovery what to do when updating
 
 ![Misc.img blank](assets/misc-blank.png)
 
-#### Recover and update scripts
+### Recover and update scripts
 
 `/recover-script`
 
