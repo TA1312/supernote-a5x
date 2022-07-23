@@ -14,7 +14,7 @@ After looking into the device I could not find anything obviously compromising. 
 
 ## Reason for disclosure
 
-See above. Given physical access this device can not be considered secure for any highly sensitive data. Also since Ratta promised to allow sideloading anyways as well as seeing the device coming wide open with a preinstalled su binary, test keys, open boot loader, (disabled) adb interface and other open doors I assume this will not create any unexpected inconvenience.
+See above. Given physical access this device can not be considered secure for any highly sensitive data. I am not a security person. This cost me a weekend of gathering publicly available data. Any person or party motivated enough and more talented than me will be quicker. Also since Ratta promised to allow sideloading anyways as well as seeing the device coming wide open with a preinstalled su binary, public test keys, open boot loader, (disabled) adb interface and other open doors I assume this will not create any unexpected inconvenience.
 
 ## GIVE ME FILES!!!!!
 
