@@ -1,0 +1,13 @@
+#!enable_script
+# 在修复时显示提示信息
+print "Please KEEP your USB cable or DC-in connected\n"
+
+# 还原system
+write_image PACKAGE:system SYSTEM:
+check_image PACKAGE:system SYSTEM:
+
+# 格式化数据分区
+format CACHE:
+format DATA:
+format PAGECACHE:
+format SWAP:
