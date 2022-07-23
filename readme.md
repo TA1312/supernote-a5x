@@ -77,7 +77,7 @@ Same happens if you follow the manual update instructions by putting an update.z
 The exact mechanism can be deducted from the following code.
 
 > com.ratta.supernote.update.NetWorkConstant
-
+```java
     public static final String DEV_BASE_URL = "http://10.20.22.32:9000";
     public static final String DOWN_LOAD_URL = "";
     public static final String NET_BASE_URL_PRODUCT = "http://10.20.22.32:8075/";
@@ -89,9 +89,11 @@ The exact mechanism can be deducted from the following code.
     public static final String FILE_TEST = USBDisk_Path + "EXPORT/test";
     public static final String FILE_PRODUCT = USBDisk_Path + "EXPORT/product";
     public static final String FILE_UAT = USBDisk_Path + "EXPORT/uat";
+```
 
 > com.ratta.networklibrary.utils.C0598Utils
 
+```java
     String str = Build.DISPLAY; // i.E. Chauvet.D002.2203101001.566_release
     boolean exists = new File(Constant.FILE_USA).exists();
     int lastIndexOf = str.lastIndexOf("_");
@@ -113,14 +115,18 @@ The exact mechanism can be deducted from the following code.
         }
     }
     return Constant.RELEASE_BASE_URL;
+```
 
 > com.ratta.supernote.update.DownLoadService
 
+```java
     @POST("official/system/business/android/update/download")
     Call<DownResponse> downLoadFileInfo(@Body RequestBody requestBody);
+```
 
 > com.ratta.supernote.update.UpDateAppService
 
+```java
     LocalSystemInfoBean localSystemInfoBean = new LocalSystemInfoBean(); // see CURL request above for example values
     localSystemInfoBean.setEquipmentNo(DownPresenter.getDeviceVersion());
     localSystemInfoBean.setLanguage(DownPresenter.getLanguage(this));
@@ -128,16 +134,19 @@ The exact mechanism can be deducted from the following code.
     localSystemInfoBean.setConfigureList(DownPresenter.getSystemAllPackageVersion(this, new ArrayList()));
     RetrofitUtils retrofitUtils = RetrofitUtils.getInstance();
     final DownResponse downResponse = (DownResponse) retrofitUtils.execute(((DownLoadService) retrofitUtils.getService(DownLoadService.class)).downLoadFileInfo(DownLoadModel.getRequestBody(localSystemInfoBean)));
-
+```
 > com.ratta.supernote.update.UpDateAppService
 
+```java
     if (new File(NetWorkConstant.DOWN_LOAD_PATH, "update.zip").exists()) {
         CacheInfoUtils.saveData(CacheInfoUtils.updateFlagPath, UpDateAppService.USB_UPDATE_FLAG);
         RecoverySystem.installPackage(UpDateAppService.this, new File(NetWorkConstant.DOWN_LOAD_PATH, "update.zip")); // if unfamiliar: https://developer.android.com/reference/android/os/RecoverySystem
     }
+```
 
 > com.ratta.supernote.update.UpDateAppService
 
+```java
     private void checkRestartUpdate() {
         String str = SystemProperties.get(ConstanceUtil.restartKey, Constance.FILE_SEVER_UFILE);  // FILE_SEVER_UFILE = "0"; restartKey = "ratta.launcher.restart";
         LogUtils.m187d("ratta: " + str);
@@ -169,6 +178,7 @@ The exact mechanism can be deducted from the following code.
         LogUtils.m187d("usb update GestureService.lockStatusbar true");
         DialogUtils.getInstance().build(this).createDefaultDelayDialog(getString(C0688R.string.usb_detection_tips), 30, new LibDialogDelayDefaultListener() {  // "The upgrade pack is detected, do you want to install?"
         // goes on with housekeeping like removing any existing update.zip and a couple of checks for enough battery etc and then moves the update.zip to /cache as seen above
+```
 
 As you can see there are no sanity checks or any type of decryption going on. So you can basically take any file, move it to the /EXPORT/ folder and let the system hand it over to recovery.
 
@@ -512,6 +522,7 @@ So I use it to create the .krnl files conveniently and then run my toolchain.bat
 
 ### Example toolchain
 
+```batch
     move Image\boot.img Image\boot.img.tmp
     move Image\recovery.img Image\recovery.img.tmp
     move Image\kernel.img Image\kernel.img.tmp
@@ -529,7 +540,7 @@ So I use it to create the .krnl files conveniently and then run my toolchain.bat
     move Image\kernel.img.tmp Image\kernel.img
     del Image\tmp-update.img
     pause 
-
+```
 
 ### Further resources
 
