@@ -229,13 +229,17 @@ Next I googled for an SDK around the PX30 platform and found one here:
 
 along with docs here:
 
-[en.t-firefly.com/doc/download/page/id/63.html#other_206](https://wiki.t-firefly.com/en/Core-PX30-JD4/Android_development.html)
+[wiki.t-firefly.com/en/Core-PX30-JD4/Android_development.html](https://wiki.t-firefly.com/en/Core-PX30-JD4/Android_development.html)
+
+and here:
+
+[wiki.t-firefly.com/en/Firefly-RK3399/customize_android_firmware.html](https://wiki.t-firefly.com/en/Firefly-RK3399/customize_android_firmware.html)
 
 Downloading the SDK you can unpack the 7z archive and init the contained git repo through:
 
     git clone PX30_Android8.1.0_LVDS_190706 directory_to_clone_into
 
-Find the SDK test keys under `/build/make/target/product/security` and you're good to go.
+After a lengthy clone find the SDKs test keys under `/build/make/target/product/security` and you're good to go.
 
 ![Private Keys for Supernote A5X](assets/testkeys.png)
 
