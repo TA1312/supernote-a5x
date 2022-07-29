@@ -8,13 +8,19 @@ Cloud servers apparently are located in China so entirely open to the Chinese go
 
 After looking into the device I could not find anything obviously compromising. Some of the Ratta Apps come with partly obfuscated Tencent components embedded. The device seems to be respecting your telemetry settings (take note Google, Apple, et al) but is very regularly checking for updates which at least might be tracking you in terms of location and usage patterns.  
 
-**I do not advice anyone to follow this writeup in practice as you will very likely brick your device.**
+**I do not advice anyone to follow this writeup in practice as you will very likely render your device unsuable.**
 
-**Most of this is written down from memory. Which in my case isn't very reliable. So there might be errors or omissions that increase your risk of rendering your device unusable along with voiding your guarantee.**
+**Much of this is written down from memory. Which in my case isn't very reliable. So there might be errors or omissions that increase your risk of rendering your device unusable along with voiding your guarantee.**
 
 ## Reason for disclosure
 
-See above. Given physical access this device can not be considered secure for any highly sensitive data. I am not a security person. This cost me a weekend of gathering publicly available data. Any person or party motivated enough and more talented than me will be quicker. Also since Ratta promised to allow sideloading anyways as well as seeing the device coming wide open with a preinstalled su binary, public test keys, open boot loader, (disabled) adb interface and other open doors I assume this will not create any unexpected inconvenience.
+See above. **Given physical access this device can not be considered secure for any highly sensitive data.**
+
+Given the nature of it's outdated version of Android and the lack of security measures I would under no circumstances make my device available to any untrusted party. I would also advice to never attach it to any unknown computer or public charging cable since some of these attacks can be done in an entirely automated way. 
+
+I am not a security person. This cost me a weekend of gathering publicly available data. Any person or party motivated enough and more talented than me will be quicker. Also since Ratta promised to allow sideloading anyways as well as seeing the device coming wide open with preinstalled su binary, public test keys, open boot loader, (disabled, easily unlocked) adb console interface and other open doors I assume this will not create any unexpected inconvenience.
+
+In any way this document has been made available to Ratta via email on Jul 27 2022, two weeks ahead of posting publicly.
 
 ## GIVE ME FILES!!!!!
 
@@ -186,10 +192,65 @@ I never checked but reading the code I assume you can up- and downgrade your dev
 
 Though since it's the standard Android recovery mechanism (which I am not super familiar with) it will check whether the file is signed with a known private key.
 
-This definitely caught my attention.
+## What else?
+
+The device comes with a closed down [ADB interface](https://developer.android.com/studio/command-line/adb). It takes the `adb reboot` command which lets you put it in recovery `adb reboot recovery` as well as into fastboot `adb reboot fastboot` or bootloader mode `adb reboot loader`.
 
 
-## Cracking open the device *(not physically)*
+### Recovery mode
+
+In recovery mode the device allows for a shell which runs as root. A limited command set is available but busybox is installed so nevermind. A logical step would be to unlock full access to adb by making a script like so:
+
+```bash
+#!/bin/bash
+
+echo "rebooting to recovery"
+adb reboot recovery
+
+ANSWER=0
+while [ "$ANSWER" != "1" ]; do
+    sleep 2
+    ANSWER=$(adb devices | grep rockchipplatform -c)
+done
+
+echo "device online, patching"
+
+adb shell busybox mount -o rw,seclabel,relatime,data=ordered,inode_readahead_blks=8 /dev/block/by-name/system /system
+adb shell sed -i "s/ro.debuggable=0/ro.debuggable=1/" /system/etc/prop.default
+
+echo "rebooting to system"
+adb reboot
+```
+
+After which the device is basically fully accessible via a standard adb shell which can then be elevated to root:
+
+![update1](assets/adb-unlock.png)
+
+<span style="color:red">**For non-technical users: this means your device is basically open, along with all your files. Any motivated user could at any time copy or modify any file on your device given USB access.**</span>
+
+
+### Fastboot mode
+
+Since the bootloader is unlocked you could at any time flash any kernel or partition by rebooting the device into this mode and `fastboot flash boot boot.img`
+
+<span style="color:red">**For non-technical users: this means your device could freely be modified in such a way that you wouldn't notice and thus put your data and privacy at risk.**</span>
+
+
+### "Loader" mode
+
+In this mode the device is being detected as "LOADER MODE" by Rockchip developer tools like RKDevTool. From here partitions can be overwritten, partition layout can be changed...
+
+![rkdev](assets/rkdev-1.png)
+
+...and the device can be put into Maskrom Mode. More about that below.
+
+![rkdev](assets/rkdev-2.png)
+
+
+<span style="color:red">**For non-technical users: this means your device could freely be modified in such a way that you wouldn't notice and thus put your data and privacy at risk.**</span>
+
+
+## Making the device yours entirely
 
 When I looked at the `/system/build.prop` I found 
 
