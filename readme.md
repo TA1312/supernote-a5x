@@ -3,14 +3,15 @@
 ## Intro
 
 I received the device as a gift. Whenever I receive a new device I take a quick look into it. Especially with a device that invites some rather personal or business critical data. 
-Even though in this case I more or less trust the company Ratta to do the best they can to protect my data - being a (part-)Chinese company there's very little they *can* do. We all are aware of the dangerous state of privacy laws and regulations in China. Also I had reason to believe devices are being made by a third party [OEM manufacturer](http://www.htfyun.cn/) also located in mainland China.
-Cloud servers apparently are located in China so entirely open to the Chinese government. Even though the company seems to currently be testing servers in the US that doesn't make me any less careful.
+Even though in this case I more or less trust the company Ratta to do the best they can to protect my data - being a (part-)Chinese company I believe limits to what they *can* do. We all are aware of the conversation around the state of privacy laws and regulations in China. Also I had reason to believe devices are being made by a third party [OEM manufacturer](http://www.htfyun.cn/) also located in mainland China and wanted to see what else is happening on the device.
 
-After looking into the device I could not find anything obviously compromising. Some of the Ratta Apps come with partly obfuscated Tencent components embedded. The device seems to be respecting your telemetry settings (take note Google, Apple, et al) but is very regularly checking for updates which at least might be tracking you in terms of location and usage patterns.  
+**TL;DR** The device can be rooted through multiple attack vectors. Software as well as hardware based.
 
-**I do not advice anyone to follow this writeup in practice as you will very likely render your device unsuable.**
+**Good news:** after looking into the device I could not find anything obviously compromising in terms of spyware or other invasive practice. Some of the Ratta Apps come with partly obfuscated Tencent components embedded. The device seems to be respecting your telemetry settings (take note Google, Apple, et al) but is very regularly checking for updates which at least might be tracking you in terms of location and usage patterns. Some servers apparently are located in China so potentially open to the Chinese government. Even though the company seems to be aware of the topic and rolling out servers in the US.
 
-**Much of this is written down from memory. Which in my case isn't very reliable. So there might be errors or omissions that increase your risk of rendering your device unusable along with voiding your guarantee.**
+**Warning:** I do not advice anyone to follow this writeup in practice as you will very likely render your device unsuable. Much of this is written down from memory. Which in my case isn't very reliable. So there might be errors or omissions that increase your risk of rendering your device unusable along with voiding your guarantee.
+
+**Update 2022/08/08:** I notified Ratta a bit over two weeks ago to let them know I would release this information. As expected Ratta replied kindly and promised to work on the issues. I also want to point out that I am in no way implying CHINA = EVIL here. I am voicing a general wish for my data to be safe and private and see issues in US, European, Indian, Russian,... privacy practice as much as I see it with China.
 
 ## Reason for disclosure
 
@@ -18,7 +19,7 @@ See above. **Given physical access this device can not be considered secure for 
 
 Given the nature of it's outdated version of Android and the lack of security measures I would under no circumstances make my device available to any untrusted party. I would also advice to never attach it to any unknown computer or public charging cable since some of these attacks can be done in an entirely automated way. 
 
-I am not a security person. This cost me a weekend of gathering publicly available data. Any person or party motivated enough and more talented than me will be quicker. Also since Ratta promised to allow sideloading anyways as well as seeing the device coming wide open with preinstalled su binary, public test keys, open boot loader, (disabled, easily unlocked) adb console interface and other open doors I assume this will not create any unexpected inconvenience.
+I am not a security person. This cost me two weekends of gathering publicly available data. Any person or party motivated enough and more talented than me will be quicker. Also since Ratta promised to allow sideloading anyways as well as seeing the device coming wide open with preinstalled su binary, public test keys, open boot loader, (disabled, easily unlocked) adb console interface and other open doors I assume this will not create any unexpected inconvenience.
 
 In any way this document has been made available to Ratta via email on Jul 27 2022, two weeks ahead of posting publicly.
 
