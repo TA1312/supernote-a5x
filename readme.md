@@ -8,7 +8,7 @@ Even though in this case I more or less trust the company Ratta to do the best t
 **TL;DR** The device can be rooted through multiple attack vectors. Software as well as hardware based.
 
 **Good news:** after looking into the device I could not find anything obviously compromising in terms of spyware or other invasive practice. Some of the Ratta Apps come with partly obfuscated Tencent components embedded. The device seems to be respecting your telemetry settings (take note Google, Apple, et al) but is very regularly checking for updates which at least might be tracking you in terms of location and usage patterns. Some servers apparently are located in China so potentially open to the Chinese government. Even though the company seems to be aware of the topic and rolling out servers in the US. 
-To put things into perspective: any embedded Google or Amazon device, any popular operating system, any smartphone or smartphone app gathers more information about you than what I found here.
+To put things into perspective: any embedded Google or Amazon device, any popular operating system, any smartphone or popular social media app gathers more information about you than what I found here.
 
 **Warning:** I do not advise anyone to follow this writeup in practice as you will very likely render your device unsuable. Much of this is written down from memory. Which in my case isn't very reliable. So there might be errors or omissions that increase your risk of rendering your device unusable along with voiding your guarantee.
 
