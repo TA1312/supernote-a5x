@@ -15,6 +15,7 @@ On your Supernote remove your screen lock as it creates timing issues for the sc
 
 - **Windows:** 
     - ADB: Install the [Android Platform Tools for Windows](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) or use a package like [this one](https://github.com/K3V1991/ADB-and-FastbootPlusPlus/releases). If you use Platform Tools you will have to either put the files into path. You'll find plenty instruction on how to set up ADB on Google, like [here](https://www.minitool.com/news/adb-install-windows-10-mac.html). Either way you'll have to restart or at least sign out, sign into Windows again. You should then be able to connect your Supernote by USB, open a command line prompt, type adb devices and see your device in the list.
+    - ADB drivers: [see here](https://www.droidthunder.com/adb-drivers/)
 
 - **Linux:** 
     - ADB: you will most probably be able to install and setup adb through apt or similar. Otherwise please consult Google ;)
@@ -30,17 +31,25 @@ Either way, you should be able to open a terminal / command line prompt, type `a
 - Download the script for either [Linux](https://raw.githubusercontent.com/TA1312/supernote-a5x/master/scripts/a5x-sideload.sh) (make sure to chmod u+x the script or run it through bash) or [Windows](https://raw.githubusercontent.com/TA1312/supernote-a5x/master/scripts/a5x-sideload.bat) (open in your browser and press Ctrl+S to save file or select Save as)
 - Put all the apps you want to sideload into the same folder as your script
     - You can download apps as APK files from sites like ApkPure or ApkMirror or preferably use [F-Droid](https://f-droid.org/)
+
 - Windows 
     - open a command prompt for example by pressing Win+X and choosing Command Prompt/Windows Terminal (depending on your version of Windows) and change to the folder where you put your script. Or just open that folder in Windows Explorer, right click and select Terminal or Command Prompt. Please Google otherwise.
     - run the script by typing `./a5x-sideload.bat`
+
 - Linux 
     - open a Terminal
     - cd to the folder with your script 
-    - type either `./a5x-sideload.sh` or `bash a5x-sideload.sh`.
+    - type either `./a5x-sideload.sh` or `bash a5x-sideload.sh`
+    
 - You should see the script processing and your device should restart multiple times
 ![update1](assets/sideload.png)
+
+- There is a chance your device will ask you to allow ADB debugging access like so
+    ![update1](assets/adbdebugging.png)
+    - In this case the script will fail. Just allow access by pressing `OK` (*make sure to check 'always'*) on the device, close the windows or exit the script by pressing `CTRL+C` and restart the process.
+
 - Once the script is done, on your device go to `Settings > Apps > My apps` to make the device refresh the list of installed apps
-- Installed apps should then appear in the Sidebar (can always be reconfigured through settings)
+- Installed apps should then appear in the sidebar (can always be reconfigured through settings)
 
 
 ### Troubleshooting
