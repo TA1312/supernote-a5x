@@ -1,0 +1,8 @@
+service dropbear /system/xbin/dropbear -s -A root -N root -R /etc/dropbear/authorized_keys -P /data/local/tmp/dropbear.pid
+    seclabel u:r:init:s0
+    user root
+    group root
+    oneshot
+
+on property:sys.boot_completed=1 
+    start dropbear
