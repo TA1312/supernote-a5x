@@ -342,9 +342,11 @@ Usually this interface can be accessed through shorting two pins on the CPU. Thi
 
 #### Back up your partitions
 
-Backup all partitions for example by issuing these commands in a root adb shell:
+Backup all partitions in a root adb shell:
 
 	adb shell
+
+for example by issuing these commands:
 
 	cat /dev/block/mmcblk1p1 > /sdcard/EXPORT/uboot.img
 	cat /dev/block/mmcblk1p2 > /sdcard/EXPORT/trust.img
@@ -361,6 +363,15 @@ Backup all partitions for example by issuing these commands in a root adb shell:
 	cat /dev/block/mmcblk1p13 > /sdcard/EXPORT/vendor.img
 	cat /dev/block/mmcblk1p14 > /sdcard/EXPORT/oem.img
 	cat /dev/block/mmcblk1p15 > /sdcard/EXPORT/frp.img
+
+and potentially even save your userdata:
+
+    dd if=/dev/block/by-name/userdata bs=4096 count=1048576 of=/sdcard/EXPORT/userdata-1.img
+    dd if=/dev/block/by-name/userdata bs=4096 skip=1048576 count=1048576 of=/sdcard/EXPORT/userdata-2.img
+    dd if=/dev/block/by-name/userdata bs=4096 skip=2097152 count=1048576 of=/sdcard/EXPORT/userdata-3.img
+    dd if=/dev/block/by-name/userdata bs=4096 skip=3145728 count=1048576 of=/sdcard/EXPORT/userdata-4.img
+    dd if=/dev/block/by-name/userdata bs=4096 skip=4194304 count=1048576 of=/sdcard/EXPORT/userdata-5.img
+    dd if=/dev/block/by-name/userdata bs=4096 skip=5242880 count=1048576 of=/sdcard/EXPORT/userdata-6.img
 
 ### Supernote A5X partition layout:
 

@@ -22,7 +22,9 @@ On your Supernote remove your screen lock as it creates timing issues for the sc
     - Bash
 
 - **Mac:** 
-    - you might be able to use the linux .sh file on Mac as well. I might try and update here in the future.
+    - ADB:<br />
+    `ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew install --cask android-platform-tools`
 
 Either way, you should be able to open a terminal / command line prompt, type `adb devices` and see your device in the list.
 ![update1](assets/adbdevices.png)
