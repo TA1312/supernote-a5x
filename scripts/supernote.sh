@@ -15,6 +15,7 @@ Options:
 
     -u          Unlock the device (before installing APKs)
     -l          (Re)lock the device (after installing APKs)
+    -a          Auto-lock (unlock before, lock after, equivalent to -ul)
 "
 
 _usage () {
@@ -26,7 +27,7 @@ DEVICE=
 do_unlock=
 do_relock=
 
-while getopts "hd:56ul" arg; do
+while getopts "hd:56ula" arg; do
   case ${arg} in
     h) _usage 0 ;;
     5) [ -n "$DEVICE" ] && _usage 1 || DEVICE="$DEV5" ;;
@@ -34,8 +35,8 @@ while getopts "hd:56ul" arg; do
     d) [ -n "$DEVICE" ] && _usage 1 || DEVICE=${OPTARG} ;;
     u) do_unlock=1 ;;
     l) do_relock=1 ;;
-
-    ?) echo "Invalid option: -${OPTARG}." ; _usage 2 ;;
+    a) do_unlock=1 ; do_relock=1 ;;
+    ?) _usage 2 ;;
   esac
 done
 
