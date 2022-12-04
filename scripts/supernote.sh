@@ -43,42 +43,41 @@ _patch_prop () {
     fi
 }
 
+_patch() {
+    echo -n "Rebooting to recovery... "
+    adb reboot recovery
+    _wait_for_adb "rockchipplatform"
+    echo "Device in recovery."
+
+    echo -n "Patching to $1... "
+    _patch_prop "ro.secure" "$2"
+    _patch_prop "ro.debuggable" "$3"
+    _patch_prop "ro.adb.secure" "$4"
+    _patch_prop "sys.rkadb.root" "$5"
+    echo "Patched."
+
+    echo -n "Rebooting to system... "
+    adb reboot
+    _wait_for_adb "SN100"
+    echo "Booted."
+}
+
+_unlock() {
+    _patch "unlock" 0 1 0 0
+}
+
+_relock() {
+    _patch "relock" 1 0 1 1
+}
+
 echo "waiting for device (ADB installed and device attached?)"
 _wait_for_adb "SN100"
 
-echo "rebooting to recovery"
-adb reboot recovery
-_wait_for_adb "rockchipplatform"
-
-echo "patching"
-
-_patch_prop "ro.secure" "0"
-_patch_prop "ro.debuggable" "1"
-_patch_prop "ro.adb.secure" "0"
-_patch_prop "sys.rkadb.root" "0"
-
-echo "rebooting to system"
-adb reboot
-
-_wait_for_adb "SN100"
+_unlock
 
 echo "installing apps"
 for f in ./*.apk; do echo " - $f"; adb install "$f"; done
 
-echo "rebooting to recovery"
-adb reboot recovery
-_wait_for_adb "rockchipplatform"
+_relock
 
-echo "unpatching"
-_patch_prop "ro.secure" "1"
-_patch_prop "ro.debuggable" "0"
-_patch_prop "ro.adb.secure" "1"
-_patch_prop "sys.rkadb.root" "1"
-
-echo "rebooting to system"
-adb reboot
-
-echo "waiting for system"
-_wait_for_adb "SN100"
-
-echo "done!"
+echo "Done!"
